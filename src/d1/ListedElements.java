@@ -1,5 +1,7 @@
 package d1;
 
+import java.util.NoSuchElementException;
+
 public class ListedElements{
 
 	public Element root; // head, pradzia
@@ -21,6 +23,11 @@ public class ListedElements{
 		}
 		current.next = new Element(value);
 	}
+	
+	public int getSize() {
+		return this.size;
+	}
+	
 
 	public void addBefore(int value) {
 		Element newRoot = new Element(value);
@@ -29,6 +36,7 @@ public class ListedElements{
 	}
 
 	public void deleteWithValue(int value) {
+		
 		// jeigu tuscias, griztam
 		if (root == null)
 			return;
@@ -36,6 +44,7 @@ public class ListedElements{
 		// jeigu norime naikinti root, pradzia
 		if (root.value == value) {
 			root = root.next;
+			this.size--;
 			return;
 		}
 
@@ -49,6 +58,7 @@ public class ListedElements{
 				return;
 			}
 			current = current.next;
+			this.size--;
 		}
 	}
 	
@@ -72,11 +82,26 @@ public class ListedElements{
 	}
 
 	public int returnElement(int index) {
+		if (index > getSize()) {
+			throw new NoSuchElementException();
+		}
 		Element current = root;
 		for(int i=0; i<index; i++) {
 			current = current.next;
 		}
 		return current.value;
+	}
+	
+	public int[] toArray() {
+		Element current = root;
+		int[] arr = new int[getSize()];
+		int i = 0;
+		while(current != null) {
+			arr[i] = current.value;
+			i++;
+			current = current.next;
+		}
+		return arr;
 	}
 	
 }
